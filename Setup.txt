@@ -1,0 +1,14 @@
+1). install miniconda and create virtual environment to work with scanpy (scanpy-env)
+  - once miniconda installed, open miniconda prompt (may have to manually create shortcut for this on desktop)
+  - run "conda create -n scanpy-env -c conda-forge python=3.10 scanpy" (specify whichever version of python)
+2). run "conda activate scanpy-env" to open new environment
+  - "conda deactivate" to switch back to base
+3). install scanpy in created environment
+  - run "conda install -c conda-forge scanpy"
+4). install supporting packages
+  - "conda install -c conda-forge "package name""
+  - install: Pooch, python-igraph, leidenalg, scikit-image
+5). clone github repo to computer and open in IDE (suggest PyCharm)
+6). switch python interpretor in IDE to python executable in scanpy-env
+
+
