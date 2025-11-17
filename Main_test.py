@@ -201,3 +201,21 @@ adata.obs["cell_type_lvl1"] = adata.obs["leiden_res_0.02"].map(
 
 #lets repeat with higher resolution
 sc.pl.dotplot(adata, marker_genes, groupby="leiden_res_0.50", standard_scale="var")
+
+#calculate marker genes for each cluster so we can look up if there is a known link for cell type/state
+#use statistical tests to compare genes in one cluster vs the rest (Scanpy tut uses Wilcoxon test)
+
+# Obtain cluster-specific differentially expressed genes
+sc.tl.rank_genes_groups(adata, groupby="leiden_res_0.50", method="wilcoxon")
+#visualize top 5 genes
+sc.pl.rank_genes_groups_dotplot(adata, groupby="leiden_res_0.50", standard_scale="var", n_genes=5)
+
+#visualize top five genes expression
+dc_cluster_genes = sc.get.rank_genes_groups_df(adata, group="7").head(5)["names"]
+sc.pl.umap(
+    adata,
+    color=[*dc_cluster_genes, "leiden_res_0.50"],
+    legend_loc="on data",
+    frameon=False,
+    ncols=3,
+)
