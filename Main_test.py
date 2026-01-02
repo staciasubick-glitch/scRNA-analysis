@@ -8,31 +8,49 @@ import anndata as ad
 # Data retrieval
 import pooch
 import scanpy as sc
+from pathlib import Path
 from matplotlib.text import Annotation
 
 sc.settings.set_figure_params(dpi=50, facecolor="white")
 
 #Download sample data for tutorial
-EXAMPLE_DATA = pooch.create(
-    path=pooch.os_cache("scverse_tutorials"),
-    base_url="doi:10.6084/m9.figshare.22716739.v1/",
-)
-EXAMPLE_DATA.load_registry_from_doi()
-
-samples = {
-    "s1d1": "s1d1_filtered_feature_bc_matrix.h5",
-    "s1d3": "s1d3_filtered_feature_bc_matrix.h5",
-}
-adatas = {}
+# EXAMPLE_DATA = pooch.create(
+#     path=pooch.os_cache("scverse_tutorials"),
+#     base_url="doi:10.6084/m9.figshare.22716739.v1/",
+# )
+# EXAMPLE_DATA.load_registry_from_doi()
+#
+# samples = {
+#     "s1d1": "s1d1_filtered_feature_bc_matrix.h5",
+#     "s1d3": "s1d3_filtered_feature_bc_matrix.h5",
+# }
+# adatas = {}
 
 #read sample data into an AnnData object
 #uses scanpy fxns to read in data and assign
 #https://scanpy.readthedocs.io/en/stable/generated/scanpy.read_10x_h5.html
-for sample_id, filename in samples.items():
-    path = EXAMPLE_DATA.fetch(filename) #path to hdf5 file
-    sample_adata = sc.read_10x_h5(path) #reads a 10x-genomics-formatted hdf5 file
+# for sample_id, filename in samples.items():
+#     path = EXAMPLE_DATA.fetch(filename) #path to hdf5 file
+#     sample_adata = sc.read_10x_h5(path) #reads a 10x-genomics-formatted hdf5 file
+#     sample_adata.var_names_make_unique()
+#     adatas[sample_id] = sample_adata
+
+
+# Import data from local computer:
+
+# directory containing your local h5 files
+DATA_DIR = Path(r"C:\Users\staci\OneDrive - Johns Hopkins\Cho Lab docs")
+
+samples = {
+    "s1": DATA_DIR / "filtered_feature_bc_matrix.h5"}
+
+adatas = {}
+
+for sample_id, path in samples.items():
+    sample_adata = sc.read_10x_h5(path)
     sample_adata.var_names_make_unique()
     adatas[sample_id] = sample_adata
+
 
 adata = ad.concat(adatas, label="sample")
 adata.obs_names_make_unique()
