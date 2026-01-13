@@ -39,10 +39,10 @@ sc.settings.set_figure_params(dpi=50, facecolor="white")
 # Import data from local computer:
 
 # directory containing your local h5 files
-DATA_DIR = Path(r"C:\Users\staci\OneDrive - Johns Hopkins\Cho Lab docs")
+DATA_DIR = Path(r"C:\RNAseq data\SC_2_16_outs")
 
 samples = {
-    "s1": DATA_DIR / "filtered_feature_bc_matrix.h5"}
+    "s1": DATA_DIR / "SC_2_16_filtered_feature_bc_matrix.h5"}
 
 adatas = {}
 
@@ -58,7 +58,7 @@ print(adata.obs["sample"].value_counts())
 adata
 
 #define gene populations of focus to pass into qc_metrics fxn
-#standard prefixes in the variable names allow us tosort for specific variables
+#standard prefixes in the variable names allow us to sort for specific variables
 # mitochondrial genes, "MT-" for human, "Mt-" for mouse
 adata.var["mt"] = adata.var_names.str.startswith("MT-")
 # ribosomal genes
